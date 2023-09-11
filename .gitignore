@@ -4,7 +4,7 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/PRGR5/vendor
 .env
 .env.backup
 .env.production
