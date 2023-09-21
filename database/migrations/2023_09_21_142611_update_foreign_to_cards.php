@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 255);
-            $table->string('imageName', 255);
-            $table->string('description', 255);
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
-            $table->timestamps();
-
+        Schema::table('cards', function (Blueprint $table) {
+            // Add foreign keys to the existing 'cards' table
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
         });
@@ -30,6 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cards');
+        // Remove the foreign keys in the down() method if needed
+        Schema::table('cards', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['category_id']);
+        });
     }
 };
