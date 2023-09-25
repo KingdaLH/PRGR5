@@ -25,8 +25,8 @@ return new class extends Migration
     {
         // Remove the foreign keys in the down() method if needed
         Schema::table('cards', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['category_id']);
+            $table->dropConstrainedForeignId('user_id');
+            $table->dropConstrainedForeignId('category_id');
         });
     }
 };
