@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'isAdmin',
     ];
 
     /**
@@ -42,4 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // When creating a new user, set the default value for isAdmin to 0
+        static::creating(function ($user) {
+            $user->isAdmin = 0;
+        });
+
+        // When the first user is created, set isAdmin to 1
+        static::created(function ($user) {
+            if (User::count() === 1) {
+                $user->isAdmin = 1;
+                $user->save();
+            }
+        });
+    }
 }

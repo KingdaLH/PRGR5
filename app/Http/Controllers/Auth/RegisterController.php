@@ -64,10 +64,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'isAdmin' => 0
         ]);
+
+        // Check if this is the first user
+        if (User::count() === 1) {
+            $user->isAdmin = 1;
+            $user->save();
+        }
+
+        return $user;
     }
 }
