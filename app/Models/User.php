@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -55,7 +56,7 @@ class User extends Authenticatable
 
         // When the first user is created, set isAdmin to 1
         static::created(function ($user) {
-            if (User::count() === 1) {
+            if (DB::table('users')->count() === 1) {
                 $user->isAdmin = 1;
                 $user->save();
             }
