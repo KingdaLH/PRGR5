@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <form action="{{ route('card.store') }}" method="post">
+    <form action="{{ route('cards.store') }}" method="post">
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
@@ -15,7 +15,7 @@
             <textarea name="description" class="form-control" required></textarea>
         </div>
         <div class="form-group">
-            <label for="category_id">Categories (Select up to 2)</label>
+            <label for="category_id">Types (Select up to 2)</label>
             <select name="category_id[]" class="form-control" multiple required>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>

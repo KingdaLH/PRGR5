@@ -60,6 +60,11 @@
                                             {{ __('Admin Page') }}
                                         </a>
                                     @endif
+                                @auth
+                                    <a class="dropdown-item" href="{{ route('cards.create') }}">
+                                        {{__('Create') }}
+                                    </a>
+                                @endauth
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -3,11 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\categories;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
+    public function index()
+    {
+        $cards = Card::all();
+        return view('cards', compact('cards'));
+    }
+
+    public function create() {
+        $categories = Category::all();
+        return view('create', compact('categories'));
+    }
+
+    public function delete() {
+
+    }
+
     public function store(Request $request)
     {
         $request->validate([

@@ -25,9 +25,9 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/create', [CardController::class, 'index'])->name('card.index');
-    Route::get('create/create/{id}', [CardController::class, 'store'])->name('card.store');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cards/create', [CardController::class, 'create'])->name('cards.create');
+    Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
