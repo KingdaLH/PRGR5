@@ -18,6 +18,6 @@ class Card extends Model
     ];
 
     public function categories() {
-        return $this->belongsToMany(Categories::class);
+        return $this->belongsToMany(Category::class);
     }
 }

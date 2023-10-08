@@ -2,6 +2,12 @@
 @section('content')
     <form action="{{ route('cards.store') }}" method="post">
         @csrf
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" name="name" class="form-control" required>
@@ -25,4 +31,9 @@
 
         <button type="submit" class="btn btn-primary">Create Card</button>
     </form>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 @endsection

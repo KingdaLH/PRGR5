@@ -27,23 +27,39 @@ class CardController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'imageName'=>'required',
-            'description'=>'required',
-            'user_id'=>'required',
-            'category_id' => ['required', 'array', 'max:2']
-        ]);
+        try{
+            \Log::info($request->all());
 
-        $card = new Card();
-        $card->name = $request->input(key:'name');
-        $card->imageName = $request->input(key:'imageName');
-        $card->description = $request->input(key:'description');
-        $card->user_id = Auth::user()->id;
+            $request->validate([
+                'name' => 'required',
+                'imageName' => 'required',
+                'description' => 'required',
+                'user_id' => 'required',
+                'category_id' => ['required_without:category_id_2', 'array', 'max:2'],
+                'category_id_2' => ['required_without:category_id', 'array', 'max:2'],
+            ]);
 
-        $card->save();
 
-        $card->categories()->sync($request->input('category_id'));
-        return redirect()->route('cards.index');
+            $user_id = Auth::user()->id;
+
+            $category_ids = array_slice($request->input('category_id'), 0, 2);
+
+            $card = new Card([
+                'name' => $request->input('name'),
+                'imageName' => $request->input('imageName'),
+                'description' => $request->input('description'),
+                'user_id' => $user_id,
+            ]);
+
+            $card->save();
+
+            $card->categories()->sync($category_ids);
+        } catch (\Exception $e) {
+            \Log::error('Error data is not being saved ' . $e->getMEssage());
+            return redirect()->back()->with('error', 'An error occurred while saving data.');
+        }
+
+        dd($request->all());
+        return redirect()->route('cards.create')->with('success', 'Card created successfully');
     }
 }
