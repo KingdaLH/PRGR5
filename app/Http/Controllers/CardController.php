@@ -27,40 +27,32 @@ class CardController extends Controller
 
     public function store(Request $request)
     {
-        try{
-            \Log::info($request->all());
+        \Log::info($request->all());
 
-           // dd($request->all());
-            $request->validate([
-                'name' => 'required',
-                'imageName' => 'required',
-                'description' => 'required',
-                'user_id' => 'required',
-                'category_id' => ['required_without:category_id_2', 'array', 'max:2'],
-                'category_id_2' => ['required_without:category_id', 'array', 'max:2'],
-            ]);
+        $request->validate([
+            'name' => 'required',
+            'imageName' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+            'category_id' => ['required', 'array', 'max:2'],
+        ]);
 
 
-            $user_id = Auth::user()->id;
+        $user_id = Auth::user()->id;
 
-            $category_ids = array_slice($request->input('category_id'), 0, 2);
+        $card = new Card([
+            'name' => $request->input('name'),
+            'imageName' => $request->input('imageName'),
+            'description' => $request->input('description'),
+            'user_id' => $user_id,
+            'category_id' => $request->input('primary_category_id'),
+        ]);
 
-            $card = new Card([
-                'name' => $request->input('name'),
-                'imageName' => $request->input('imageName'),
-                'description' => $request->input('description'),
-                'user_id' => $user_id,
-            ]);
+        $card->save();
 
-            $card->save();
+        $card->primaryCategory()->sync($request->input('primary_category_id'));
+        $card->secondaryCategories()->sync($request->input('secondary_category_id'));
 
-            $card->categories()->sync($category_ids);
-        } catch (\Exception $e) {
-            \Log::error('Error data is not being saved ' . $e->getMEssage());
-            return redirect()->back()->with('error', 'An error occurred while saving data.');
-        }
-
-        dd($request->all());
         return redirect()->route('cards.create')->with('success', 'Card created successfully');
     }
 }

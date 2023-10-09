@@ -15,10 +15,17 @@ class Card extends Model
         'description',
         'user_id',
         'category_id',
-        'category_id_2',
     ];
 
-    public function categories() {
-        return $this->belongsToMany(Category::class);
+    public function primaryCategory()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
+
+    public function secondaryCategories()
+    {
+        return $this->belongsToMany(Category::class, 'card_category');
+    }
+
 }
+
