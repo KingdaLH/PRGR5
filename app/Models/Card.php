@@ -15,6 +15,7 @@ class Card extends Model
         'description',
         'user_id',
         'category_id',
+        'category_id_2',
     ];
 
     public function categories() {

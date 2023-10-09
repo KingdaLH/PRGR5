@@ -28,7 +28,7 @@
                 @endforeach
             </select>
         </div>
-
+        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <button type="submit" class="btn btn-primary">Create Card</button>
     </form>
     @if (session('success'))

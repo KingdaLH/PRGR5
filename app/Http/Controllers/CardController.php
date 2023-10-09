@@ -30,6 +30,7 @@ class CardController extends Controller
         try{
             \Log::info($request->all());
 
+           // dd($request->all());
             $request->validate([
                 'name' => 'required',
                 'imageName' => 'required',
