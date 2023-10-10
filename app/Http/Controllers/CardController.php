@@ -50,7 +50,7 @@ class CardController extends Controller
 
         $card->save();
 
-        $card->primaryCategory()->sync($request->input('primary_category_id'));
+        //$card->primaryCategory()->sync($request->input('primary_category_id'));
         $card->secondaryCategories()->sync($request->input('secondary_category_id'));
 
         return redirect()->route('cards.create')->with('success', 'Card created successfully');
