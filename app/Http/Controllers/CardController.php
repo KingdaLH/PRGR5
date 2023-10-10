@@ -45,13 +45,12 @@ class CardController extends Controller
             'imageName' => $request->input('imageName'),
             'description' => $request->input('description'),
             'user_id' => $user_id,
-            'category_id' => $request->input('primary_category_id'),
+            'category_id' => $request->input('category_id'),
         ]);
 
         $card->save();
 
-        //$card->primaryCategory()->sync($request->input('primary_category_id'));
-        $card->secondaryCategories()->sync($request->input('secondary_category_id'));
+        $card->categories()->sync();
 
         return redirect()->route('cards.create')->with('success', 'Card created successfully');
     }

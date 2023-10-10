@@ -17,12 +17,7 @@ class Card extends Model
         'category_id',
     ];
 
-    public function primaryCategory()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function secondaryCategories()
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'card_category');
     }

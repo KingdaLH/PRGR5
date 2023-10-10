@@ -21,18 +21,9 @@
             <textarea name="description" class="form-control" required></textarea>
         </div>
         <div class="form-group">
-            <label for="primary_category_id">Primary Category</label>
-            <select name="primary_category_id" class="form-control" required>
-                <option value="">Select a primary category</option>
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="secondary_category_id">Secondary Categories (Select up to 2)</label>
-            <select name="secondary_category_id" class="form-control">
-                <option value="">Select a secondary category</option>
+            <label for="category_id">Types</label>
+            <select name="category_id" class="form-control"  multiple>
+                <option value="">Choose up to two types</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
