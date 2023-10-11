@@ -28,30 +28,29 @@ class CardController extends Controller
     public function store(Request $request)
     {
         \Log::info($request->all());
-
         $request->validate([
             'name' => 'required',
             'imageName' => 'required',
             'description' => 'required',
             'user_id' => 'required',
-            'category_id' => ['required', 'array', 'max:2'],
+            'category_id' => ['required', 'array', 'max:2',],
         ]);
 
-
         $user_id = Auth::user()->id;
+        $category_ids = array_slice($request->input('category_id'), 0, 2);
 
         $card = new Card([
             'name' => $request->input('name'),
             'imageName' => $request->input('imageName'),
             'description' => $request->input('description'),
             'user_id' => $user_id,
-            'category_id' => $request->input('category_id'),
         ]);
 
         $card->save();
 
-        $card->categories()->sync();
+        $card->categories()->sync($category_ids);
 
         return redirect()->route('cards.create')->with('success', 'Card created successfully');
     }
+
 }

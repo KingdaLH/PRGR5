@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cards', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->dropConstrainedForeignId('category_id');
         });
     }
 
@@ -23,8 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cards', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('user_id');
-            $table->dropConstrainedForeignId('category_id');
+            //
         });
     }
 };

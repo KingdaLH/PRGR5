@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cards', function (Blueprint $table) {
-            $table->bigInteger('category_id_2')->unsigned()->nullable();
+            $table->dropConstrainedForeignId('category_id');
         });
     }
 };

@@ -9,21 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('cards', function (Blueprint $table) {
-            $table->bigInteger('category_id_2')->unsigned()->nullable();
+            $table->bigInteger('category_id')->unsigned()->default(0);
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('restrict');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        // Remove the foreign keys in the down() method if needed
         Schema::table('cards', function (Blueprint $table) {
-            $table->bigInteger('category_id_2')->unsigned()->nullable();
+
+            $table->dropForeign(['category_id']);
         });
     }
 };

@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label for="category_id">Types</label>
-            <select name="category_id" class="form-control"  multiple>
+            <select name="category_id[]" class="form-control"  multiple>
                 <option value="">Choose up to two types</option>
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
