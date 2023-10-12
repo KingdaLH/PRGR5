@@ -10,15 +10,15 @@
 
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" name="name" class="form-control" required>
+            <input type="text" name="name" class="form-control" required value="{{ old('name') }}">
         </div>
         <div class="form-group">
             <label for="imageName">Image Name</label>
-            <input type="text" name="imageName" class="form-control" required>
+            <input type="text" name="imageName" class="form-control" >
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea name="description" class="form-control" required></textarea>
+            <textarea name="description" class="form-control" ></textarea>
         </div>
         <div class="form-group">
             <label for="category_id">Types</label>

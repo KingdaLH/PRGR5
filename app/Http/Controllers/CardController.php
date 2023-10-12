@@ -27,15 +27,15 @@ class CardController extends Controller
 
     public function store(Request $request)
     {
-        \Log::info($request->all());
+//        \Log::info($request->all());
         $request->validate([
             'name' => 'required',
             'imageName' => 'required',
             'description' => 'required',
             'user_id' => 'required',
-            'category_id' => ['required', 'array', 'max:2',],
+            'category_id' => ['required', 'array', 'max:2'],
         ]);
-
+//        dd($request);
         $user_id = Auth::user()->id;
         $category_ids = array_slice($request->input('category_id'), 0, 2);
 
@@ -48,7 +48,7 @@ class CardController extends Controller
 
         $card->save();
 
-        $card->categories()->sync($category_ids);
+        $card->categories()->sync($request->input('category_id'));
 
         return redirect()->route('cards.create')->with('success', 'Card created successfully');
     }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('imageName', 255);
             $table->string('description', 255);
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
             $table->timestamps();
         });
     }

@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cards/create', [CardController::class, 'create'])->name('cards.create');
     Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
     Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
+    Route::delete('/cards/{card}', [CardController::class, 'delete'])->name('cards.delete');
 
 });
 

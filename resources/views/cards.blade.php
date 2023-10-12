@@ -8,6 +8,7 @@
             <th>Image Name</th>
             <th>Description</th>
             <th>Types</th>
+            <th>Categories</th>
         </tr>
         <tbody>
         @foreach ($cards as $card)
@@ -17,7 +18,12 @@
                 <td>{{ $card->Description}}</td>
                 <td>{{ $card->Types}}</td>
                 <td>
-                    <a href="{{ route('cards.delete', ['name' => $card->name]) }}" class="btn btn-danger">Delete</a>
+                    @foreach($card->categories as $category)
+                    {{ $category->name}}
+                    @endforeach
+                </td>
+                <td>
+                    <a href="{{ route('cards.delete', $card) }}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         @endforeach

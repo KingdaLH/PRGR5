@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('cards', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('cards', function (Blueprint $table) {
             $table->dropConstrainedForeignId('user_id');
-            $table->dropConstrainedForeignId('category_id');
         });
     }
 };
