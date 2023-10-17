@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <form action="{{ route('cards.index') }}" method="get">
+        @csrf
+        <input type="text" name="search" placeholder="Search cards">
+        <select name="category[]" multiple>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+        </select>
+        <button type="submit">Apply Filter</button>
+    </form>
+
     <table class = "table">
         <thead>
         <tr>

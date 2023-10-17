@@ -7,13 +7,32 @@ use App\Models\categories;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function Laravel\Prompts\search;
 
 class CardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cards = Card::all();
-        return view('cards', compact('cards'));
+        $categories = Category::all();
+        $search = $request->input('search');
+        $category = $request->input('category');
+
+        $query = Card::query();
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        }
+
+        if ($category) {
+            $query->whereHas('categories', function ($query) use ($category) {
+                $query->whereIn('category_id', $category);
+            });
+        }
+
+        $cards = $query->get();
+        \Log::info('Category variable:', ['category' => $category]);
+        return view('cards', compact('cards', 'categories'));
     }
 
     public function create() {
