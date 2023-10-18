@@ -40,8 +40,23 @@ class CardController extends Controller
         return view('create', compact('categories'));
     }
 
-    public function delete() {
+    public function delete($id) {
 
+        $card = Card::find($id);
+        if (auth()->user()->id == $card->user_id) {
+
+            $card->delete();
+        }
+        return redirect()->route('admin.index');
+    }
+
+    public function toggle(Card $card)
+    {
+        if (auth()->user()->id == $card->user_id) {
+            $card->update(['enabled' => !$card->enabled]);
+        }
+
+        return redirect()->route('cards.index');
     }
 
     public function store(Request $request)

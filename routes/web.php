@@ -26,10 +26,12 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
     Route::get('/cards/create', [CardController::class, 'create'])->name('cards.create');
     Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
-    Route::get('/cards', [CardController::class, 'index'])->name('cards.index');
+    Route::post('/cards/{card}/toggle', [CardController::class, 'toggle'])->name('cards.toggle');
     Route::delete('/cards/{card}', [CardController::class, 'delete'])->name('cards.delete');
+
 
 });
 

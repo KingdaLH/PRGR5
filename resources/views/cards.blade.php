@@ -35,7 +35,16 @@
                     @endforeach
                 </td>
                 <td>
-                    <a href="{{ route('cards.delete', $card) }}" class="btn btn-danger">Delete</a>
+                    @if (auth()->user()->id == $card->user_id)
+                        <a href="{{ route('cards.delete', $card) }}" class="btn btn-danger">Delete</a>
+
+                        <form action="{{ route('cards.toggle', $card) }}" method="post">
+                            @csrf
+                            <label for="is_enabled">Enable/Disable</label>
+                            <input type="checkbox" name="is_enabled" {{ $card->is_enabled ? 'checked' : '' }}>
+                            <button type="submit">Save</button>
+                        </form>
+                    @endif
                 </td>
             </tr>
         @endforeach
