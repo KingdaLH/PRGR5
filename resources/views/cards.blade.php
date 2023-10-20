@@ -35,8 +35,19 @@
                     @endforeach
                 </td>
                 <td>
+                    @if ($card->is_enabled)
+                        Enabled
+                    @else
+                        Disabled
+                    @endif
+                </td>
+                <td>
                     @if (auth()->user()->id == $card->user_id)
-                        <a href="{{ route('cards.delete', $card) }}" class="btn btn-danger">Delete</a>
+                        <form action="{{ route('cards.delete', $card) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
 
                         <form action="{{ route('cards.toggle', $card) }}" method="post">
                             @csrf

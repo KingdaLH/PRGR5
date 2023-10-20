@@ -16,6 +16,7 @@ class CardController extends Controller
         $categories = Category::all();
         $search = $request->input('search');
         $category = $request->input('category');
+        $user = auth()->user();
 
         $query = Card::query();
 
@@ -30,6 +31,16 @@ class CardController extends Controller
             });
         }
 
+        if (!Auth::user()->isAdmin) {
+            $query->where('is_enabled', true);
+        }
+
+        if (!Auth::user()->isAdmin) {
+            $query->orWhere(function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        }
+
         $cards = $query->get();
         \Log::info('Category variable:', ['category' => $category]);
         return view('cards', compact('cards', 'categories'));
@@ -40,21 +51,27 @@ class CardController extends Controller
         return view('create', compact('categories'));
     }
 
-    public function delete($id) {
+    public function delete(Card $card) {
 
-        $card = Card::find($id);
-        if (auth()->user()->id == $card->user_id) {
-
-            $card->delete();
+        if (Auth::user()->id9 != $card->user_id) {
+            return redirect()->route('cards.index')->with('error', 'You are not authorized to delete this card.');
         }
-        return redirect()->route('admin.index');
+
+        // Perform the deletion logic
+        $card->delete();
+
+        return redirect()->route('cards.index')->with('success', 'Card deleted successfully.');
     }
 
-    public function toggle(Card $card)
+    public function toggle(Request $request, Card $card)
     {
-        if (auth()->user()->id == $card->user_id) {
-            $card->update(['enabled' => !$card->enabled]);
+        if (Auth::user()->id != $card->user_id) {
+            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
         }
+
+        $card->update(['is_enabled' => $request->has('is_enabled')]);
+
+        dd($request);
 
         return redirect()->route('cards.index');
     }
