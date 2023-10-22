@@ -53,7 +53,7 @@
                             @csrf
                             <label for="is_enabled">Enable/Disable</label>
                             <input type="checkbox" name="is_enabled" {{ $card->is_enabled ? 'checked' : '' }}>
-                            <button type="submit">Save</button>
+                            <button type="submit" class = "btn btn-warning">Save</button>
                         </form>
                     @endif
                 </td>

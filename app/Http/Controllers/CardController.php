@@ -7,6 +7,7 @@ use App\Models\categories;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\If_;
 use function Laravel\Prompts\search;
 
 class CardController extends Controller
@@ -42,7 +43,7 @@ class CardController extends Controller
         }
 
         $cards = $query->get();
-        \Log::info('Category variable:', ['category' => $category]);
+      //  \Log::info('Category variable:', ['category' => $category]);
         return view('cards', compact('cards', 'categories'));
     }
 
@@ -53,28 +54,42 @@ class CardController extends Controller
 
     public function delete(Card $card) {
 
-        if (Auth::user()->id9 != $card->user_id) {
+        if (Auth::user()->id != $card->user_id) {
             return redirect()->route('cards.index')->with('error', 'You are not authorized to delete this card.');
         }
 
-        // Perform the deletion logic
         $card->delete();
 
         return redirect()->route('cards.index')->with('success', 'Card deleted successfully.');
     }
-
-    public function toggle(Request $request, Card $card)
+    public function toggle(Request $request, $id)
     {
-        if (Auth::user()->id != $card->user_id) {
-            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
-        }
+//        if (Auth::user()->id != $card->user_id) {
+//            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
+//        }
 
-        $card->update(['is_enabled' => $request->has('is_enabled')]);
+        $card=Card::find($id);
+        $card->is_enabled= $request->has(['is_enabled']);
+        $card.save();
 
-        dd($request);
+        //  \Log::info($request->has('is_enabled'));
+        \Log::info($card->is_enabled);
 
         return redirect()->route('cards.index');
     }
+//    public function toggle(Request $request, Card $card)
+//    {
+//        if (Auth::user()->id != $card->user_id) {
+//            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
+//        }
+//
+//      $card->update($request->only(['is_enabled']));
+//
+//        //  \Log::info($request->has('is_enabled'));
+//        \Log::info($card->is_enabled);
+//
+//        return redirect()->route('cards.index');
+//    }
 
     public function store(Request $request)
     {
