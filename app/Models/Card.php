@@ -14,6 +14,7 @@ class Card extends Model
         'imageName',
         'description',
         'user_id',
+        'is_enabled'
     ];
 
     public function categories()

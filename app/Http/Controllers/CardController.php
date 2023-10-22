@@ -62,34 +62,34 @@ class CardController extends Controller
 
         return redirect()->route('cards.index')->with('success', 'Card deleted successfully.');
     }
-    public function toggle(Request $request, $id)
-    {
-//        if (Auth::user()->id != $card->user_id) {
-//            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
-//        }
-
-        $card=Card::find($id);
-        $card->is_enabled= $request->has(['is_enabled']);
-        $card.save();
-
-        //  \Log::info($request->has('is_enabled'));
-        \Log::info($card->is_enabled);
-
-        return redirect()->route('cards.index');
-    }
-//    public function toggle(Request $request, Card $card)
+//    public function toggle(Request $request, $id)
 //    {
-//        if (Auth::user()->id != $card->user_id) {
-//            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
-//        }
+////        if (Auth::user()->id != $card->user_id) {
+////            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
+////        }
 //
-//      $card->update($request->only(['is_enabled']));
+//        $card=Card::find($id);
+//        $card->is_enabled= $request->has(['is_enabled']);
+//        $card.save();
 //
 //        //  \Log::info($request->has('is_enabled'));
 //        \Log::info($card->is_enabled);
 //
 //        return redirect()->route('cards.index');
 //    }
+    public function toggle(Request $request, Card $card)
+    {
+        if (Auth::user()->id != $card->user_id) {
+            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
+        }
+
+      $card->update(['is_enabled' => $request->has('is_enabled')]);
+
+        //  \Log::info($request->has('is_enabled'));
+        \Log::info($card->is_enabled);
+
+        return redirect()->route('cards.index');
+    }
 
     public function store(Request $request)
     {
