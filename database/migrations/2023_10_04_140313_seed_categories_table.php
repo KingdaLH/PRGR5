@@ -14,18 +14,18 @@ class SeedCategoriesTable extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             $categories = [
-                'Neutral',
-                'Wind',
-                'Earth',
-                'Water',
-                'Fire',
-                'Nature',
-                'Electric',
-                'Mental',
-                'Digital',
-                'Melee',
-                'Crystal',
-                'Toxic',
+                'Flying',
+                'Lasers',
+                'Strength',
+                'Technical',
+                'Enhanced',
+                'Space',
+                'Cape',
+                'Animal',
+                'Magic',
+                'Teleportation',
+                'Not Human',
+                'Computers',
 
             ];
 

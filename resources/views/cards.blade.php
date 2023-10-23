@@ -60,12 +60,12 @@
         </tbody>
     </table>
     <section>
-        <p>You have {{$numberOfCards}} TEMTEM!</p>
+        <p>You have {{$numberOfCards}} Favourite Heroes!</p>
         @if ($numberOfCards >= 6)
             <form action="{{ route('cards.deleteAll')}}" method="post">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">DELETE ALL ENTRIES</button>
+                <button type="submit" class="btn btn-danger">THANOS SNAP</button>
             </form>
         @endif
     </section>
