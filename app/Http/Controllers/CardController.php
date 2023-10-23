@@ -43,8 +43,13 @@ class CardController extends Controller
         }
 
         $cards = $query->get();
-      //  \Log::info('Category variable:', ['category' => $category]);
-        return view('cards', compact('cards', 'categories'));
+
+        $user = auth()->user();
+        $query = Card::query();
+
+        $numberOfCards = $query->where('user_id', $user->id)->count();
+
+        return view('cards', compact('cards', 'categories', 'numberOfCards'));
     }
 
     public function create() {
@@ -61,6 +66,22 @@ class CardController extends Controller
         $card->delete();
 
         return redirect()->route('cards.index')->with('success', 'Card deleted successfully.');
+    }
+
+    public function deleteAll() {
+
+        $user = auth()->user();
+        $query = Card::query();
+
+//        if (Auth::user()->id != $card->user_id) {
+//            return redirect()->route('cards.index')->with('error', 'You are not authorized to delete this card.');
+//        }
+
+        $cardsToBeDeleted = $query->where('user_id', $user->id);
+
+        $cardsToBeDeleted->delete();
+
+        return redirect()->route('cards.index')->with('success', 'Cards deleted successfully.');
     }
 //    public function toggle(Request $request, $id)
 //    {
@@ -84,9 +105,6 @@ class CardController extends Controller
         }
 
       $card->update(['is_enabled' => $request->has('is_enabled')]);
-
-        //  \Log::info($request->has('is_enabled'));
-        \Log::info($card->is_enabled);
 
         return redirect()->route('cards.index');
     }

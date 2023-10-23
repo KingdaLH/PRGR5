@@ -16,11 +16,20 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->isAdmin ? 'Admin' : 'User' }}</td>
                 <td>
-                    <a href="{{ route('admin.delete', ['id' => $user->id]) }}" class="btn btn-danger">Delete</a>
+                    <form action="{{ route('admin.delete', ['id' => $user->id]) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
                     @if (!$user->isAdmin)
                         <a href="{{ route('admin.makeAdmin', ['id' => $user->id]) }}" class="btn btn-success">Make Admin</a>
                     @else
-                        <a href="{{ route('admin.removeAdmin', ['id' => $user->id]) }}" class="btn btn-warning">Remove Admin</a>
+                        <form action="{{ route('admin.removeAdmin', ['id' => $user->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-warning">Remove Admin</button>
+                        </form>
                     @endif
                 </td>
             </tr>

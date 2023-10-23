@@ -20,7 +20,6 @@
             <th>Image Name</th>
             <th>Description</th>
             <th>Types</th>
-            <th>Categories</th>
         </tr>
         <tbody>
         @foreach ($cards as $card)
@@ -28,7 +27,6 @@
                 <td>{{ $card->name }}</td>
                 <td>{{ $card->imageName }}</td>
                 <td>{{ $card->Description}}</td>
-                <td>{{ $card->Types}}</td>
                 <td>
                     @foreach($card->categories as $category)
                     {{ $category->name}}
@@ -61,4 +59,14 @@
         @endforeach
         </tbody>
     </table>
+    <section>
+        <p>You have {{$numberOfCards}} TEMTEM!</p>
+        @if ($numberOfCards >= 6)
+            <form action="{{ route('cards.deleteAll')}}" method="post">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">DELETE ALL ENTRIES</button>
+            </form>
+        @endif
+    </section>
 @endsection

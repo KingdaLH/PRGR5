@@ -31,13 +31,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cards', [CardController::class, 'store'])->name('cards.store');
     Route::post('/cards/{card}/toggle', [CardController::class, 'toggle'])->name('cards.toggle');
     Route::delete('/cards/{card}', [CardController::class, 'delete'])->name('cards.delete');
-
+    Route::delete('/cards', [CardController::class, 'deleteAll'])->name('cards.deleteAll');
 
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    Route::delete('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
     Route::get('/admin/make-admin/{id}', [AdminController::class, 'makeAdmin'])->name('admin.makeAdmin');
     Route::delete('/admin/remove-admin/{id}', [AdminController::class, 'removeAdmin'])->name('admin.removeAdmin');
 });
