@@ -65,8 +65,16 @@
             <form action="{{ route('cards.deleteAll')}}" method="post">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">THANOS SNAP</button>
+                <button type="submit" id="thanos-snap-button" class="btn btn-danger">THANOS SNAP</button>
             </form>
+
+            <script>
+                document.getElementById('thanos-snap-button').addEventListener('click', function () {
+                    if (confirm('Are you sure you want to perform the Thanos Snap? This will delete half of your heroes from existence.')) {
+                        document.getElementById('thanos-snap-form').submit();
+                    }
+                });
+            </script>
         @endif
     </section>
 @endsection

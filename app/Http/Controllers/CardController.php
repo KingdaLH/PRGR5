@@ -71,33 +71,29 @@ class CardController extends Controller
     public function deleteAll() {
 
         $user = auth()->user();
-        $query = Card::query();
+        $query = Card::query()->where('user_id', $user->id);
 
-//        if (Auth::user()->id != $card->user_id) {
-//            return redirect()->route('cards.index')->with('error', 'You are not authorized to delete this card.');
-//        }
+        $count = $query->count();
+        $amount = max(1, round($count / 2)); // Ensure at least 1 card is deleted
 
-        $cardsToBeDeleted = $query->where('user_id', $user->id);
+        $cardsToBeDeleted = $query->inRandomOrder()->take($amount)->get();
 
-        $cardsToBeDeleted->delete();
+        foreach ($cardsToBeDeleted as $card) {
+            $card->delete();
+        }
 
-        return redirect()->route('cards.index')->with('success', 'Cards deleted successfully.');
+        return redirect()->route('cards.index')->with('success', 'Perfect in balance. As all things should be');
+
+//        $user = auth()->user();
+//        $query = Card::query();
+//
+//        $cardsToBeDeleted = $query->where('user_id', $user->id);
+//
+//        $cardsToBeDeleted->delete();
+//
+//        return redirect()->route('cards.index')->with('success', 'Cards deleted successfully.');
     }
-//    public function toggle(Request $request, $id)
-//    {
-////        if (Auth::user()->id != $card->user_id) {
-////            return redirect()->route('cards.index')->with('error', 'You are not authorized to enable/disable this card.');
-////        }
-//
-//        $card=Card::find($id);
-//        $card->is_enabled= $request->has(['is_enabled']);
-//        $card.save();
-//
-//        //  \Log::info($request->has('is_enabled'));
-//        \Log::info($card->is_enabled);
-//
-//        return redirect()->route('cards.index');
-//    }
+
     public function toggle(Request $request, Card $card)
     {
         if (Auth::user()->id != $card->user_id) {
