@@ -74,7 +74,7 @@ class CardController extends Controller
         $query = Card::query()->where('user_id', $user->id);
 
         $count = $query->count();
-        $amount = max(1, round($count / 2)); // Ensure at least 1 card is deleted
+        $amount = max(1, round($count / 2));
 
         $cardsToBeDeleted = $query->inRandomOrder()->take($amount)->get();
 
@@ -83,15 +83,6 @@ class CardController extends Controller
         }
 
         return redirect()->route('cards.index')->with('success', 'Perfect in balance. As all things should be');
-
-//        $user = auth()->user();
-//        $query = Card::query();
-//
-//        $cardsToBeDeleted = $query->where('user_id', $user->id);
-//
-//        $cardsToBeDeleted->delete();
-//
-//        return redirect()->route('cards.index')->with('success', 'Cards deleted successfully.');
     }
 
     public function toggle(Request $request, Card $card)
@@ -107,7 +98,6 @@ class CardController extends Controller
 
     public function store(Request $request)
     {
-//        \Log::info($request->all());
         $request->validate([
             'name' => 'required',
             'imageName' => 'required',
