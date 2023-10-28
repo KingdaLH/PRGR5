@@ -83,7 +83,7 @@ class CardController extends Controller
         }
 
         return redirect()->route('cards.index')->with('success', 'Perfect in balance. As all things should be');
-    }
+    }//        \Log::info($request->all());
 
     public function toggle(Request $request, Card $card)
     {
